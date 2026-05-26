@@ -221,7 +221,7 @@ function Menu({
 
       {/* Category tabs */}
       <div className="sticky top-0 z-20 bg-background/95 backdrop-blur border-b border-border mt-4">
-        <div className="max-w-3xl mx-auto px-4 overflow-x-auto flex gap-2 py-3 no-scrollbar">
+        <div className="max-w-3xl mx-auto px-4 overflow-x-auto flex gap-2 py-3 scrollbar-hide">
           {categorias.map((c) => (
             <button
               key={c.id}
