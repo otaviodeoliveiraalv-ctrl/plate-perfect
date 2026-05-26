@@ -155,7 +155,7 @@ function Menu({
           className="h-40 sm:h-52 bg-gradient-to-br from-primary/40 via-primary/15 to-background"
           style={{
             backgroundImage: tenant.logo_url
-              ? `linear-gradient(180deg, transparent 0%, oklch(var(--background)) 100%), url(${tenant.logo_url})`
+              ? `linear-gradient(180deg, transparent 0%, var(--background) 100%), url(${tenant.logo_url})`
               : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
