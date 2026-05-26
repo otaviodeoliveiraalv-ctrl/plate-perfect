@@ -234,7 +234,7 @@ export function CheckoutSheet({
           <Button
             disabled={!podeEnviar || enviando}
             onClick={enviar}
-            className="w-full h-13 text-base font-bold rounded-xl"
+            className="w-full h-12 text-base font-bold rounded-xl"
           >
             {enviando ? (
               <>
