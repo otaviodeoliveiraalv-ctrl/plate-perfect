@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTenantBySlug, estaAberto } from "@/lib/tenant";
-import { CartProvider, useCart, brl, type CartItem } from "@/lib/cart";
+import { CartProvider, useCart, brl } from "@/lib/cart";
 import { Loader2, MapPin, Clock, ShoppingBag, Search, Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
