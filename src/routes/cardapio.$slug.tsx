@@ -339,7 +339,7 @@ function Menu({
           open={!!itemSelecionado}
           onClose={() => setItemSelecionado(null)}
           item={itemSelecionado}
-          onConfirm={(c) => useCartAdd(c)}
+          onConfirm={add}
         />
       )}
       {itemSelecionado?.tipo === "personalizavel" && opcoes && (
@@ -351,7 +351,7 @@ function Menu({
           precoBase={itemSelecionado.preco}
           opcoes={opcoes}
           regraDoisSabores={tenant.regra_dois_sabores}
-          onConfirm={(c) => useCartAdd(c)}
+          onConfirm={add}
         />
       )}
 
@@ -366,14 +366,6 @@ function Menu({
   );
 }
 
-// helper that uses the cart context from current render scope
-function useCartAdd(c: CartItem) {
-  // This indirection allows children to call add via a closure;
-  // call inside an effect-safe spot — we just delegate to context.
-  // (Kept here for clarity; consumer components actually invoke via hook.)
-  const { add } = useCart();
-  add(c);
-}
 
 function CartDrawer({
   open,
