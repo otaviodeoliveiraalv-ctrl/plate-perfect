@@ -66,7 +66,7 @@ function Menu({
 }) {
   const origem = mesa ? "mesa" : "delivery";
   const aberto = estaAberto(tenant.horario_funcionamento);
-  const { count, bump } = useCart();
+  const { count, bump, add } = useCart();
 
   const [busca, setBusca] = useState("");
   const [catAtiva, setCatAtiva] = useState<string | null>(null);
