@@ -13,8 +13,14 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
+import { Route as CardapioSlugRouteImport } from './routes/cardapio.$slug'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel/index'
+import { Route as AuthenticatedPainelPedidosRouteImport } from './routes/_authenticated/painel/pedidos'
+import { Route as AuthenticatedPainelMesasRouteImport } from './routes/_authenticated/painel/mesas'
+import { Route as AuthenticatedPainelConfiguracoesRouteImport } from './routes/_authenticated/painel/configuracoes'
+import { Route as AuthenticatedPainelCardapioRouteImport } from './routes/_authenticated/painel/cardapio'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -35,6 +41,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PedidoIdRoute = PedidoIdRouteImport.update({
+  id: '/pedido/$id',
+  path: '/pedido/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CardapioSlugRoute = CardapioSlugRouteImport.update({
+  id: '/cardapio/$slug',
+  path: '/cardapio/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -46,18 +62,54 @@ const AuthenticatedPainelIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
+const AuthenticatedPainelPedidosRoute =
+  AuthenticatedPainelPedidosRouteImport.update({
+    id: '/pedidos',
+    path: '/pedidos',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelMesasRoute =
+  AuthenticatedPainelMesasRouteImport.update({
+    id: '/mesas',
+    path: '/mesas',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelConfiguracoesRoute =
+  AuthenticatedPainelConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelCardapioRoute =
+  AuthenticatedPainelCardapioRouteImport.update({
+    id: '/cardapio',
+    path: '/cardapio',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/cardapio/$slug': typeof CardapioSlugRoute
+  '/pedido/$id': typeof PedidoIdRoute
+  '/painel/cardapio': typeof AuthenticatedPainelCardapioRoute
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/mesas': typeof AuthenticatedPainelMesasRoute
+  '/painel/pedidos': typeof AuthenticatedPainelPedidosRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
+  '/cardapio/$slug': typeof CardapioSlugRoute
+  '/pedido/$id': typeof PedidoIdRoute
+  '/painel/cardapio': typeof AuthenticatedPainelCardapioRoute
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/mesas': typeof AuthenticatedPainelMesasRoute
+  '/painel/pedidos': typeof AuthenticatedPainelPedidosRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesById {
@@ -67,13 +119,40 @@ export interface FileRoutesById {
   '/cadastro': typeof CadastroRoute
   '/login': typeof LoginRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/cardapio/$slug': typeof CardapioSlugRoute
+  '/pedido/$id': typeof PedidoIdRoute
+  '/_authenticated/painel/cardapio': typeof AuthenticatedPainelCardapioRoute
+  '/_authenticated/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/_authenticated/painel/mesas': typeof AuthenticatedPainelMesasRoute
+  '/_authenticated/painel/pedidos': typeof AuthenticatedPainelPedidosRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cadastro' | '/login' | '/painel' | '/painel/'
+  fullPaths:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/painel'
+    | '/cardapio/$slug'
+    | '/pedido/$id'
+    | '/painel/cardapio'
+    | '/painel/configuracoes'
+    | '/painel/mesas'
+    | '/painel/pedidos'
+    | '/painel/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cadastro' | '/login' | '/painel'
+  to:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/cardapio/$slug'
+    | '/pedido/$id'
+    | '/painel/cardapio'
+    | '/painel/configuracoes'
+    | '/painel/mesas'
+    | '/painel/pedidos'
+    | '/painel'
   id:
     | '__root__'
     | '/'
@@ -81,6 +160,12 @@ export interface FileRouteTypes {
     | '/cadastro'
     | '/login'
     | '/_authenticated/painel'
+    | '/cardapio/$slug'
+    | '/pedido/$id'
+    | '/_authenticated/painel/cardapio'
+    | '/_authenticated/painel/configuracoes'
+    | '/_authenticated/painel/mesas'
+    | '/_authenticated/painel/pedidos'
     | '/_authenticated/painel/'
   fileRoutesById: FileRoutesById
 }
@@ -89,6 +174,8 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   CadastroRoute: typeof CadastroRoute
   LoginRoute: typeof LoginRoute
+  CardapioSlugRoute: typeof CardapioSlugRoute
+  PedidoIdRoute: typeof PedidoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -121,6 +208,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pedido/$id': {
+      id: '/pedido/$id'
+      path: '/pedido/$id'
+      fullPath: '/pedido/$id'
+      preLoaderRoute: typeof PedidoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cardapio/$slug': {
+      id: '/cardapio/$slug'
+      path: '/cardapio/$slug'
+      fullPath: '/cardapio/$slug'
+      preLoaderRoute: typeof CardapioSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/painel': {
       id: '/_authenticated/painel'
       path: '/painel'
@@ -135,14 +236,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
     }
+    '/_authenticated/painel/pedidos': {
+      id: '/_authenticated/painel/pedidos'
+      path: '/pedidos'
+      fullPath: '/painel/pedidos'
+      preLoaderRoute: typeof AuthenticatedPainelPedidosRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/mesas': {
+      id: '/_authenticated/painel/mesas'
+      path: '/mesas'
+      fullPath: '/painel/mesas'
+      preLoaderRoute: typeof AuthenticatedPainelMesasRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/configuracoes': {
+      id: '/_authenticated/painel/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/painel/configuracoes'
+      preLoaderRoute: typeof AuthenticatedPainelConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/cardapio': {
+      id: '/_authenticated/painel/cardapio'
+      path: '/cardapio'
+      fullPath: '/painel/cardapio'
+      preLoaderRoute: typeof AuthenticatedPainelCardapioRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
   }
 }
 
 interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelCardapioRoute: typeof AuthenticatedPainelCardapioRoute
+  AuthenticatedPainelConfiguracoesRoute: typeof AuthenticatedPainelConfiguracoesRoute
+  AuthenticatedPainelMesasRoute: typeof AuthenticatedPainelMesasRoute
+  AuthenticatedPainelPedidosRoute: typeof AuthenticatedPainelPedidosRoute
   AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
 }
 
 const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelCardapioRoute: AuthenticatedPainelCardapioRoute,
+  AuthenticatedPainelConfiguracoesRoute: AuthenticatedPainelConfiguracoesRoute,
+  AuthenticatedPainelMesasRoute: AuthenticatedPainelMesasRoute,
+  AuthenticatedPainelPedidosRoute: AuthenticatedPainelPedidosRoute,
   AuthenticatedPainelIndexRoute: AuthenticatedPainelIndexRoute,
 }
 
@@ -166,6 +303,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   CadastroRoute: CadastroRoute,
   LoginRoute: LoginRoute,
+  CardapioSlugRoute: CardapioSlugRoute,
+  PedidoIdRoute: PedidoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
