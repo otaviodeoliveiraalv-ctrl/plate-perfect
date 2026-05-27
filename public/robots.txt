@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /cardapio/
+Disallow: /painel/
+Disallow: /login
+Disallow: /cadastro
+
+Sitemap: https://menuflow.app/sitemap.xml

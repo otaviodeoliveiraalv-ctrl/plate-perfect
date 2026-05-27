@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useMyTenant } from "@/lib/tenant";
 import { supabase } from "@/integrations/supabase/client";
-import { ClipboardList, Pizza, QrCode, Settings, LogOut, Menu, X, Loader2 } from "lucide-react";
+import { ClipboardList, Pizza, QrCode, Settings, LogOut, Menu, X, Loader as Loader2, Rocket, ExternalLink } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/painel")({
   component: PainelLayout,
@@ -17,10 +18,21 @@ function PainelLayout() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
   const [novos, setNovos] = useState(0);
+  const [onboarding, setOnboarding] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) nav({ to: "/login" });
   }, [loading, user, nav]);
+
+  // Show onboarding once per browser
+  useEffect(() => {
+    if (!tenant) return;
+    const key = `menuflow-onboarded-${tenant.id}`;
+    if (!localStorage.getItem(key)) {
+      setOnboarding(true);
+      localStorage.setItem(key, "1");
+    }
+  }, [tenant]);
 
   // Contador de pedidos novos (status=recebido) realtime
   useEffect(() => {
@@ -115,6 +127,48 @@ function PainelLayout() {
       <main className="flex-1 min-w-0 pt-14 md:pt-0">
         <Outlet />
       </main>
+
+      {onboarding && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="bg-card border border-border rounded-3xl p-6 max-w-md w-full shadow-2xl">
+            <div className="size-14 rounded-2xl bg-primary/15 text-primary flex items-center justify-center mb-4">
+              <Rocket className="size-7" />
+            </div>
+            <h2 className="text-2xl font-extrabold mb-1">Bem-vindo ao MenuFlow!</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Seu estabelecimento <strong className="text-foreground">{tenant.nome}</strong> foi criado com sucesso. Veja o que fazer agora:
+            </p>
+            <ul className="space-y-3 mb-6">
+              {[
+                { step: "1", text: "Cadastre as categorias e itens do seu cardápio", to: "/painel/cardapio" },
+                { step: "2", text: "Crie suas mesas e baixe os QR Codes", to: "/painel/mesas" },
+                { step: "3", text: "Configure horários e formas de pagamento", to: "/painel/configuracoes" },
+              ].map((s) => (
+                <li key={s.step} className="flex items-start gap-3">
+                  <span className="size-6 shrink-0 rounded-full bg-primary text-primary-foreground text-xs font-extrabold flex items-center justify-center mt-0.5">
+                    {s.step}
+                  </span>
+                  <div className="flex-1 text-sm">{s.text}</div>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button
+                asChild
+                onClick={() => setOnboarding(false)}
+                className="flex-1 gap-2"
+              >
+                <Link to="/painel/cardapio">
+                  Começar pelo cardápio <ExternalLink className="size-3.5" />
+                </Link>
+              </Button>
+              <Button variant="outline" onClick={() => setOnboarding(false)} className="flex-1">
+                Explorar por conta
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
